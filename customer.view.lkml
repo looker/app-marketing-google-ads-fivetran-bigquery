@@ -21,24 +21,24 @@ explore: customer_adapter {
 
 view: account_table_name_base {
   extension: required
-  dimension: ad_group_table_name {
+  dimension: account_table_name {
     hidden: yes
     sql:account;;
   }
 }
 
 view: customer_adapter {
-  extends: [adwords_config, google_adwords_base]
+  extends: [account_table_name_base, google_adwords_base, adwords_config]
     sql_table_name:
   (
     SELECT account.*
-    FROM {{ customer.adwords_schema._sql }}.{{ customer.account_table_name_base._sql }} as account
+    FROM {{ customer.adwords_schema._sql }}.{{ customer.account_table_name._sql }} as account
     INNER JOIN (
     SELECT
       date,
       customer_id,
       MAX(_fivetran_id) as max_fivetran_id
-    FROM {{ customer.adwords_schema._sql }}.{{ customer.account_table_name_base._sql }} GROUP BY 1,2) AS max_account
+    FROM {{ customer.adwords_schema._sql }}.{{ customer.account_table_name._sql }} GROUP BY 1,2) AS max_account
     ON account._fivetran_id = max_account.max_fivetran_id
     AND account.date = max_account.date
     AND account.customer_id = max_account.customer_id
@@ -64,7 +64,7 @@ view: customer_adapter {
   }
 
   dimension: customer_descriptive_name {
-    hidden: yes
+#     hidden: yes
     type: string
     sql: ${TABLE}.customer_descriptive_name ;;
   }
