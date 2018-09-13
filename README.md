@@ -1,20 +1,70 @@
-# Google AdWords: Fivetran
+# Google Ads
 
-### Dependencies
+LookML files for a schema mapping on BigQuery for google Ads compatible with [Fivetran's Google Ads ETL](https://fivetran.com/docs/applications/google-adwords). This is designed to work with a ETL agnostic [Google Ads block](https://github.com/looker/app-marketing-google-ads).
 
-This adapter relies on a project `app_marketing_analytics_config` as specified in the manifest.lkml file. This project needs to include an `adwords_config.view.lkml` file.
+## To use this block, you will need to:
+
+### Include it in your [manifest.lkml](https://docs.looker.com/reference/manifest-reference):
+
+Note: This requires the Project Import feature currently in /admin/labs to be enabled on your Looker instance.
+
+#### Via local projects:
+
+Fork this repo and create a new project named `app-marketing-google-ads-adapter`
+
+manifest.lkml
+```LookML
+local_dependency: {
+  project: "app-marketing-google-ads-adapter"
+}
+
+
+local_dependency: {
+  project: "app-marketing-google-ads"
+}```
+
+Or remote dependency which don't require a local version.
+
+manifest.lkml
+```LookML
+
+remote_dependency: app-marketing-google-ads-adapter {
+  url: "git://github.com/looker/app-marketing-google-ads-fivetran-bigquery"
+  ref: "b491583a3ac3a1125e535b5c5855bd56e9aa41a5"
+}
+
+remote_dependency: app-marketing-google-ads {
+  url: "git://github.com/looker/app-marketing-google-ads"
+  ref: "557fa52e9fee322d9a601ee5bf009cf929ef0261"
+}```
+
+Note that the `ref:` should point to the latest commit in each respective repo [google-ads-fivetran-bigquery](https://github.com/looker/app-marketing-google-ads-fivetran-bigquery/commits/master) and [google-ads](https://github.com/looker/app-marketing-google-ads/commits/master).
+
+2. Create a `google_ads_config` view that is assumed by this project. This configuration requires a  file
 
 For example:
 
+google_ads_config.view.lkml
 ```LookML
-view: adwords_config {
+view: google_ads_config {
   extension: required
 
-  dimension: adwords_schema {
+  dimension: google_ads_schema {
     hidden: yes
-    sql:adwords;;
+    sql:google_ads;;
   }
 }
+```
+
+3. Include the view files in your model.
+
+For example:
+
+marketing_analytics.model.lkml
+```LookML
+include: "/app-marketing-google-ads-adapter/*.view"
+include: "/app-marketing-google-ads/*.view"
+include: "/app-marketing-google-ads/*.dashboard"
 ```
 
 ### Interface
@@ -109,10 +159,6 @@ Targeting Reports
 
 ### Block Info
 
-This Block is modeled on the schema from Fivetrans's [Google AdWords ETL](https://fivetran.com/directory/facebook_ads_insights).
+This Block is modeled on the schema from Fivetrans's [Google AdWords ETL](https://fivetran.com/directory/google_ads_insights).
 
 The schema documentation for AdWords can be found in [Google's docs](https://developers.google.com/adwords/api/docs/appendix/reports).
-
-### Google AdWords Raw Data Structure
-
-* **Entity Tables and Stats Tables** - There are several primary entities included in the AdWords data set, such as ad, ad group, campaign, customer, keyword, etc.. Each of these tables has a corresponding "Stats" table, which includes all the various metrics for that entity. For example, the "campaign" entity table contains attributes for each campaign, such as the campaign name and campaign status. The corresponding stats table - "Campaign Basic Stats" contains metrics such as impressions, clicks, and conversions. These stats tables are mapped to an ad_impression explore as an interface to the Looker Marketing Analytics application.
