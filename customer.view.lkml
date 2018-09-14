@@ -4,7 +4,7 @@ explore: customer_join {
   extension: required
 
   join: customer {
-    from: customer_adapter
+    from: customer
     view_label: "Customer"
     sql_on: ${fact.external_customer_id} = ${customer.external_customer_id} AND
       ${fact._date} = ${customer._date} ;;
@@ -12,9 +12,9 @@ explore: customer_join {
   }
 }
 
-explore: customer_adapter {
+explore: customer {
   persist_with: adwords_etl_datagroup
-  from: customer_adapter
+  from: customer
   view_name: customer
   hidden: yes
 }
@@ -28,6 +28,7 @@ view: account_table_name_base {
 }
 
 view: customer_adapter {
+  extension: required
   extends: [account_table_name_base, google_adwords_base, adwords_config]
     sql_table_name:
   (
