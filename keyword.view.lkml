@@ -16,14 +16,14 @@ explore: keyword_join {
   }
 }
 
-explore: keyword_adapter {
+explore: keyword {
   persist_with: adwords_etl_datagroup
   from: keyword_adapter
   view_name: keyword
   hidden: yes
 
   join: ad_group {
-    from: ad_group_adapter
+    from: ad_group
     view_label: "Ad Groups"
     sql_on: ${keyword.ad_group_id} = ${ad_group.ad_group_id} AND
       ${keyword.campaign_id} = ${ad_group.campaign_id} AND
@@ -32,7 +32,7 @@ explore: keyword_adapter {
     relationship: many_to_one
   }
   join: campaign {
-    from: campaign_adapter
+    from: campaign
     view_label: "Campaign"
     sql_on: ${keyword.campaign_id} = ${campaign.campaign_id} AND
       ${keyword.external_customer_id} = ${campaign.external_customer_id} AND
@@ -40,7 +40,7 @@ explore: keyword_adapter {
     relationship: many_to_one
   }
   join: customer {
-    from: customer_adapter
+    from: customer
     view_label: "Customer"
     sql_on: ${keyword.external_customer_id} = ${customer.external_customer_id} AND
       ${keyword._date} = ${customer._date} ;;

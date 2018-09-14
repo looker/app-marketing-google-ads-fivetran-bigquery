@@ -4,7 +4,7 @@ explore: ad_group_join {
   extension: required
 
   join: ad_group {
-    from: ad_group_adapter
+    from: ad_group
     view_label: "Ad Groups"
     sql_on: ${fact.ad_group_id} = ${ad_group.ad_group_id} AND
       ${fact.campaign_id} = ${ad_group.campaign_id} AND
@@ -14,14 +14,14 @@ explore: ad_group_join {
   }
 }
 
-explore: ad_group_adapter {
+explore: ad_group {
   persist_with: adwords_etl_datagroup
-  from: ad_group_adapter
+  from: ad_group
   view_name: ad_group
   hidden: yes
 
   join: campaign {
-    from: campaign_adapter
+    from: campaign
     view_label: "Campaign"
     sql_on: ${ad_group.campaign_id} = ${campaign.campaign_id} AND
       ${ad_group.external_customer_id} = ${campaign.external_customer_id} AND
@@ -29,7 +29,7 @@ explore: ad_group_adapter {
     relationship: many_to_one
   }
   join: customer {
-    from: customer_adapter
+    from: customer
     view_label: "Customer"
     sql_on: ${ad_group.external_customer_id} = ${customer.external_customer_id} AND
       ${ad_group._date} = ${customer._date} ;;
@@ -46,6 +46,7 @@ view: ad_group_table_name_base {
 }
 
 view: ad_group_adapter {
+  extension: required
   extends: [ad_group_table_name_base, google_adwords_base, adwords_config]
   sql_table_name:{{ ad_group.adwords_schema._sql }}.{{ ad_group.ad_group_table_name._sql }};;
 
