@@ -85,6 +85,7 @@ view: campaign_adapter {
 
   dimension: campaign_id {
     hidden: yes
+    type: number
     sql: ${TABLE}.campaign_id ;;
   }
 

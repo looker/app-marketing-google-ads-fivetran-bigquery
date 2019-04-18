@@ -20,6 +20,7 @@ view: google_adwords_base {
 
   dimension: external_customer_id {
     hidden: yes
+    type: number
     sql: ${TABLE}.external_customer_id ;;
   }
 
