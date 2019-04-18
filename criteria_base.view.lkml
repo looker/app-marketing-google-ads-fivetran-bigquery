@@ -7,7 +7,7 @@ explore: criteria_joins_base {
   view_name: criteria
 
   join: ad_group {
-    from: ad_group_adapter
+    from: ad_group
     view_label: "Ad Groups"
     sql_on: ${criteria.ad_group_id} = ${ad_group.ad_group_id} AND
       ${criteria.campaign_id} = ${ad_group.campaign_id} AND
@@ -16,7 +16,7 @@ explore: criteria_joins_base {
     relationship: many_to_one
   }
   join: campaign {
-    from: campaign_adapter
+    from: campaign
     view_label: "Campaign"
     sql_on: ${criteria.campaign_id} = ${campaign.campaign_id} AND
       ${criteria.external_customer_id} = ${campaign.external_customer_id} AND
@@ -24,7 +24,7 @@ explore: criteria_joins_base {
     relationship: many_to_one
   }
   join: customer {
-    from: customer_adapter
+    from: customer
     view_label: "Customer"
     sql_on: ${criteria.external_customer_id} = ${customer.external_customer_id} AND
       ${criteria._date} = ${customer._date} ;;
