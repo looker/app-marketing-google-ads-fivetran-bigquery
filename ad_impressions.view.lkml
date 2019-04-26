@@ -662,6 +662,7 @@ view: ad_impressions_ad_conversion_adapter {
   dimension: conversion_type_name {
     type: string
     sql: ${TABLE}.conversion_type_name ;;
+    label: "Conversion Type"
   }
 
   dimension: conversions {
@@ -686,6 +687,20 @@ view: ad_impressions_ad_conversion_adapter {
     hidden: yes
     type: number
     sql: ${TABLE}.view_through_conversions ;;
+  }
+
+  measure: custom_conversions {
+    type: sum
+    sql: ${TABLE}.conversions ;;
+    description: "Custom Conversions"
+    value_format_name: decimal_0
+  }
+
+  measure: custom_conversion_value {
+    type: sum
+    sql: ${TABLE}.conversion_value ;;
+    description: "Custom Conversions"
+    value_format_name: usd_0
   }
 
 }
