@@ -115,7 +115,7 @@ view: campaign_adapter {
     }
     link: {
       url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value | encode_uri }}"
-      icon_url: "https://www.gstatic.com/awn/awsm/brt/awn_awsm_20171108_RC00/aw_blend/favicon.ico"
+      icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
       label: "Change Budget"
     }
     required_fields: [external_customer_id, campaign_id]
