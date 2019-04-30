@@ -285,12 +285,12 @@ view: ad_adapter {
       ), 0, 50) ;;
     link: {
       url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value }}&adGroupId={{ ad_group_id._value }}"
-      icon_url: "https://www.gstatic.com/awn/awsm/brt/awn_awsm_20171108_RC00/aw_blend/favicon.ico"
+      icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
       label: "Pause Ad"
     }
     link: {
       url: "https://adwords.google.com/aw/ads?campaignId={{ campaign_id._value }}&adGroupId={{ ad_group_id._value }}"
-      icon_url: "https://www.gstatic.com/awn/awsm/brt/awn_awsm_20171108_RC00/aw_blend/favicon.ico"
+      icon_url: "https://www.google.com/s2/favicons?domain=www.adwords.google.com"
       label: "Change Bid"
     }
     required_fields: [external_customer_id, campaign_id, ad_group_id, creative_id]
