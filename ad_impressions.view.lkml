@@ -8,7 +8,7 @@ include: "keyword.view"
 include: "parental_status.view"
 include: "video.view"
 
-view: hour_base {
+view: date_hour_base {
   extension: required
 
   dimension: hour_of_day {
@@ -21,6 +21,12 @@ view: hour_base {
     hidden: yes
     sql: CAST(${TABLE}.hour_of_day AS STRING) ;;
   }
+
+  dimension: date_string {
+    hidden: yes
+    sql: CAST(${TABLE}.date AS STRING) ;;
+  }
+
 }
 
 view: transformations_base {
@@ -89,7 +95,7 @@ view: ad_impressions_derived_table {
   extension: required
   derived_table: {
     datagroup_trigger: adwords_etl_datagroup
-    explore_source: ad_impressions_hour_adapter {
+    explore_source: ad_impressions_daily_adapter {
       column: date { field: fact._date }
       column: external_customer_id { field: fact.external_customer_id }
       column: ad_network_type_1 { field: fact.ad_network_type1 }
@@ -233,23 +239,23 @@ view: ad_impressions_adapter_base {
   }
 }
 
-explore: ad_impressions_hour_adapter {
+explore: ad_impressions_daily_adapter {
   extends: [ad_impressions_adapter]
-  from: ad_impressions_hour_adapter
+  from: ad_impressions_daily_adapter
   view_name: fact
   group_label: "Google AdWords"
-  label: "AdWord Impressions by Hour"
-  view_label: "Impressions by Hour"
+  label: "AdWord Impressions by Day"
+  view_label: "Impressions by Day"
 }
 
-view: ad_impressions_hour_adapter {
-  extends: [ad_impressions_adapter_base, hour_base]
-  sql_table_name: {{ fact.adwords_schema._sql }}.account_hourly_stats ;;
+view: ad_impressions_daily_adapter {
+  extends: [ad_impressions_adapter_base]
+  sql_table_name: {{ fact.adwords_schema._sql }}.account_stats ;;
 
   dimension: primary_key {
     primary_key: yes
     hidden: yes
-    sql: concat(${account_primary_key}, "|", ${hour_of_day_string}) ;;
+    sql: concat(${account_primary_key}, "|", ${date_string}) ;;
   }
 }
 
@@ -266,7 +272,7 @@ view: ad_impressions_campaign_derived_table {
   extension: required
   derived_table: {
     datagroup_trigger: adwords_etl_datagroup
-    explore_source: ad_impressions_campaign_hour_adapter {
+    explore_source: ad_impressions_campaign_daily_adapter {
       column: date { field: fact._date }
       column: external_customer_id { field: fact.external_customer_id }
       column: campaign_id { field: fact.campaign_id }
@@ -318,23 +324,23 @@ view: ad_impressions_campaign_adapter_base {
   }
 }
 
-explore: ad_impressions_campaign_hour_adapter {
+explore: ad_impressions_campaign_daily_adapter {
   extends: [ad_impressions_campaign_adapter]
-  from: ad_impressions_campaign_hour_adapter
+  from: ad_impressions_campaign_daily_adapter
   view_name: fact
   group_label: "Google AdWords"
-  label: "AdWord Impressions by Campaign & Hour"
-  view_label: "Impressions by Campaign & Hour"
+  label: "AdWord Impressions by Campaign"
+  view_label: "Impressions by Campaign"
 }
 
-view: ad_impressions_campaign_hour_adapter {
-  extends: [ad_impressions_campaign_adapter_base, hour_base]
-  sql_table_name: {{ fact.adwords_schema._sql }}.campaign_hourly_stats ;;
+view: ad_impressions_campaign_daily_adapter {
+  extends: [ad_impressions_campaign_adapter_base, date_hour_base]
+  sql_table_name: {{ fact.adwords_schema._sql }}.campaign_stats ;;
 
   dimension: primary_key {
     primary_key: yes
     hidden: yes
-    sql: concat(${campaign_primary_key}, "|", ${hour_of_day_string}) ;;
+    sql: concat(${campaign_primary_key}, "|", ${date_string}) ;;
   }
 }
 
@@ -351,7 +357,7 @@ view: ad_impressions_ad_group_derived_table {
   extension: required
   derived_table: {
     datagroup_trigger: adwords_etl_datagroup
-    explore_source: ad_impressions_ad_group_hour_adapter {
+    explore_source: ad_impressions_ad_group_daily_adapter {
       column: date { field: fact._date }
       column: external_customer_id { field: fact.external_customer_id }
       column: campaign_id { field: fact.campaign_id }
@@ -415,13 +421,33 @@ explore: ad_impressions_ad_group_hour_adapter {
 }
 
 view: ad_impressions_ad_group_hour_adapter {
-  extends: [ad_impressions_ad_group_adapter_base, hour_base]
+  extends: [ad_impressions_ad_group_adapter_base, date_hour_base]
   sql_table_name: {{ fact.adwords_schema._sql }}.ad_group_hourly_stats ;;
 
   dimension: primary_key {
     primary_key: yes
     hidden: yes
     sql: concat(${ad_group_primary_key}, "|", ${hour_of_day_string}) ;;
+  }
+}
+
+explore: ad_impressions_ad_group_daily_adapter {
+  extends: [ad_impressions_ad_group_adapter]
+  from: ad_impressions_ad_group_daily_adapter
+  view_name: fact
+  group_label: "Google AdWords"
+  label: "AdWord Impressions by Ad Group"
+  view_label: "Impressions by Ad Group"
+}
+
+view: ad_impressions_ad_group_daily_adapter {
+  extends: [ad_impressions_ad_group_adapter_base, date_hour_base]
+  sql_table_name: {{ fact.adwords_schema._sql }}.ad_group_stats ;;
+
+  dimension: primary_key {
+    primary_key: yes
+    hidden: yes
+    sql: concat(${ad_group_primary_key}, "|", ${date_string}) ;;
   }
 }
 
