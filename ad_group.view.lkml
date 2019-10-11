@@ -58,6 +58,7 @@ view: ad_group_adapter {
 
   dimension: ad_group_id {
     hidden: yes
+    type: number
     sql: ${TABLE}.ad_group_id ;;
   }
 
@@ -137,6 +138,7 @@ view: ad_group_adapter {
 
   dimension: campaign_id {
     hidden: yes
+    type: number
     sql: ${TABLE}.campaign_id ;;
   }
 

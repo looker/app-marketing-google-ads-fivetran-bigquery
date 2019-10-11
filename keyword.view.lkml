@@ -54,6 +54,7 @@ view: keyword_adapter {
 
   dimension: ad_group_id {
     sql: ${TABLE}.ad_group_id ;;
+    type: number
     hidden: yes
   }
 
@@ -111,6 +112,7 @@ view: keyword_adapter {
   }
 
   dimension: campaign_id {
+    type: number
     sql: ${TABLE}.campaign_id ;;
     hidden: yes
   }
@@ -162,6 +164,7 @@ view: keyword_adapter {
 
   dimension: criterion_id {
     sql: ${TABLE}.id ;;
+    type: number
     hidden: yes
   }
 
