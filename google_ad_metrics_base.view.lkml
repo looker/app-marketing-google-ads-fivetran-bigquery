@@ -20,14 +20,6 @@ view: google_ad_metrics_base_adapter {
     value_format_name: usd
   }
 
-  measure: weighted_average_position {
-    label: "Average Position"
-    description: "Average auction position."
-    type: number
-    sql: SUM(${average_position}*${impressions}) / NULLIF(${total_impressions},0) ;;
-    value_format_name: decimal_1
-  }
-
   measure: total_interactions {
     label: "Interactions"
     description: "Total ad interactions."
