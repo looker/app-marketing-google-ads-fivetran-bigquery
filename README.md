@@ -1,6 +1,6 @@
 # Google Ads
 
-LookML files for a schema mapping on BigQuery for google Ads compatible with [Fivetran's Google Ads ETL](https://fivetran.com/docs/applications/google-adwords). This is designed to work with a ETL agnostic [Google Ads block](https://github.com/looker/app-marketing-google-ads).
+LookML files for a schema mapping on BigQuery for google Ads compatible with [Fivetran's Google Ads ETL](https://fivetran.com/docs/applications/google-adwords). This is designed to work with the ETL agnostic [Google Ads block](https://github.com/looker/app-marketing-google-ads).
 
 ## To use this block, you will need to:
 
@@ -159,6 +159,6 @@ Targeting Reports
 
 ### Block Info
 
-This Block is modeled on the schema from Fivetrans's [Google AdWords ETL](https://fivetran.com/directory/google_ads_insights).
+This Block is modeled on the schema from Fivetrans's [Google AdWords ETL](https://fivetran.com/docs/applications/google-adwords).
 
 The schema documentation for AdWords can be found in [Google's docs](https://developers.google.com/adwords/api/docs/appendix/reports).
