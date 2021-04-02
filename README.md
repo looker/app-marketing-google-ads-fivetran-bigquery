@@ -1,5 +1,7 @@
 # Google Ads
 
+THIS BLOCK IS DEPRECATED AS OF 4/2/2021.
+
 LookML files for a schema mapping on BigQuery for google Ads compatible with [Fivetran's Google Ads ETL](https://fivetran.com/docs/applications/google-adwords). This is designed to work with the ETL agnostic [Google Ads block](https://github.com/looker/app-marketing-google-ads).
 
 ## To use this block, you will need to:
